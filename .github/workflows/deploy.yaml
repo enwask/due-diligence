@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -14,8 +14,8 @@ jobs:
           node-version: '20.x'
 
       - name: Cache node_modules
-        uses: actions/cache@v3
         id: cache-npm
+        uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:
@@ -27,7 +27,17 @@ jobs:
         continue-on-error: true
         run: npm install less -g
 
-      - name: Build CSS files
+      - name: Cache Less files
+        id: cache-less
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-less-css
+        with:
+          path: static/less
+          key: ${{ runner.OS }}-build-${{ env.cache-name }}-${{ hashFiles('**/static/less') }}
+
+      - if: ${{ steps.cache-less.outputs.cache-hit != 'true' }}
+        name: Build CSS files
         run: |
           for file in static/less/*; do
             npx lessc $file static/css/$(basename $file .less).css --source-map
