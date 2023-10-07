@@ -1,7 +1,8 @@
 name: Build and Deploy
 on: [ push ]
 jobs:
-  build:
+  deploy:
+    name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
