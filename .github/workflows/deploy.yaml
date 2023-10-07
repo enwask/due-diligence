@@ -1,0 +1,43 @@
+name: Build and Deploy
+on: [ push ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: cache-npm
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-build-${{ env.cache-name }}
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: Install Less.js
+        continue-on-error: true
+        run: npm install less
+
+      - name: Build CSS files
+        working-directory: ./static
+        run: |
+          for file in less/*; do
+            ../node_modules/.bin/lessc $file $(basename $file .less).css
+          done
+          
+
+      - name: Authenticate Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CLOUD_KEY }}
+
+      - name: Deploy to Google App Engine
+        uses: google-github-actions/deploy-appengine@v1
