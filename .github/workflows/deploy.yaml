@@ -28,12 +28,10 @@ jobs:
         run: npm install less
 
       - name: Build CSS files
-        working-directory: ./static
         run: |
-          for file in less/*; do
-            ../node_modules/.bin/lessc $file $(basename $file .less).css
+          for file in static/less/*; do
+            npx lessc $file static/css/$(basename $file .less).css --source-map
           done
-          
 
       - name: Authenticate Google Cloud
         uses: google-github-actions/auth@v1
