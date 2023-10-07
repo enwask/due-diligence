@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {# Metadata #}
+    <meta charset="UTF-8">
+    <meta name="title" content="Due Diligence">
+    <meta name="description" content="Your AI product comparison helper">
+    <meta name="keywords" content="ai, shopping, products, compare, llm, openai, chatgpt, gpt">
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="English">
+    <meta name="author" content="enwask">
+
+    {# Title #}
+    <title>{% block title %}Due Diligence{% endblock %} - Due Diligence</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    {# Styles #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% block main %}{% endblock %}
+</body>
+</html>
