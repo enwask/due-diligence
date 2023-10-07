@@ -20,12 +20,12 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: ~/.npm
-          key: ${{ runner.OS }}-build-${{ env.cache-name }}
+          key: ${{ runner.OS }}-build-${{ env.cache-name }}-global
 
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         name: Install Less.js
         continue-on-error: true
-        run: npm install less
+        run: npm install less -g
 
       - name: Build CSS files
         run: |
