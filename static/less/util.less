@@ -1,0 +1,59 @@
+// Sizing
+
+.w-fill {
+  width: 100%;
+}
+
+.h-fill {
+  height: 100%;
+}
+
+.h-screen {
+  height: 100vh;
+}
+
+// Positioning
+
+.pos() {
+  .left {
+    left: 0;
+  }
+
+  .right {
+    right: 0;
+  }
+
+  .top {
+    top: 0;
+  }
+
+  .bottom {
+    bottom: 0;
+  }
+}
+
+.abs {
+  position: absolute;
+  .pos();
+}
+
+.rel {
+  position: relative;
+  .pos();
+}
+
+// Spacing & rounding
+
+each(range(0, 8), {
+  .m@{value} {
+    margin: unit(@value * 8, px);
+  }
+
+  .p@{value} {
+    padding: unit(@value * 8, px);
+  }
+
+  .r@{value} {
+    border-radius: unit(@value * 8, px);
+  }
+});

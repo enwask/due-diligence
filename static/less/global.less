@@ -1,3 +1,67 @@
-p {
-  color: red;
+@import "../lib/css/schema.min.css";
+@import "util.less";
+
+// Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@500&family=Inter:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@500&display=swap');
+
+@fg: #42434B;
+@bg: #F9F6F3;
+@bg-box: #F0EDE9;
+@fg-sec: #F9F6F3;
+@bg-sec: #42434B;
+@fg-sec-hover: #F9F6F3;
+@bg-sec-hover: #32333A;
+
+// Fonts
+
+:root {
+  font-family: 'Inter', sans-serif;
+}
+
+.gabarito {
+  font-family: 'Gabarito', sans-serif;
+}
+
+// Coloring
+
+.fg1 {
+  color: @fg;
+}
+
+.bg1 {
+  background: @bg;
+}
+
+.fg2 {
+  color: @fg-sec;
+}
+
+.bg2 {
+  background: @bg-sec;
+}
+
+.fg2:hover {
+  color: @fg-sec-hover;
+}
+
+.bg2:hover {
+  background: @bg-sec-hover;
+}
+
+.bg3 {
+  background: @bg-box;
+}
+
+body, #main {
+  .fg1();
+  .bg1();
+}
+
+#sidebar {
+  .bg2();
+
+  * {
+    .fg2();
+  }
 }
