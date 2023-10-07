@@ -13,21 +13,7 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: Locate global node_modules
-        id: npm-global
-        run: echo "NPM_GLOBAL=$(npm root -g)" >> $GITHUB_ENV
-
-      - name: Cache node_modules
-        id: cache-npm
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ${{ env.NPM_GLOBAL }}
-          key: ${{ runner.OS }}-build-${{ env.cache-name }}-global
-
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: Install Less.js
+      - name: Install Less.js
         continue-on-error: true
         run: npm install less -g
 
