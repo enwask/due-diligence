@@ -14,46 +14,101 @@
 
 // Positioning
 
-.pos() {
-  .left {
-    left: 0;
-  }
-
-  .right {
-    right: 0;
-  }
-
-  .top {
-    top: 0;
-  }
-
-  .bottom {
-    bottom: 0;
-  }
-}
-
 .abs {
   position: absolute;
-  .pos();
 }
 
 .rel {
   position: relative;
-  .pos();
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}
+
+.top {
+  top: 0;
+}
+
+.bottom {
+  bottom: 0;
 }
 
 // Spacing & rounding
 
-each(range(0, 8), {
-  .m@{value} {
-    margin: unit(@value * 8, px);
+@dirs: t, b, l, r;
+@dir-names: top, bottom, left, right;
+each(range(0, 16), .(@i) {
+  .w-@{i} {
+    width: unit(@i * 4, px) !important;
   }
 
-  .p@{value} {
-    padding: unit(@value * 8, px);
+  .h-@{i} {
+    height: unit(@i * 4, px) !important;
   }
 
-  .r@{value} {
-    border-radius: unit(@value * 8, px);
+  .m-@{i} {
+    margin: unit(@i * 4, px) !important;
   }
+
+  .p-@{i} {
+    padding: unit(@i * 4, px) !important;
+  }
+
+  .r-@{i} {
+    border-radius: unit(@i * 4, px) !important;
+  }
+
+  .bg-t-@{i} {
+    @time: ((@i + 1) / 10);
+    transition: background unit(@time, s) !important;
+  }
+
+  each(range(4), .(@d) {
+    @dir: extract(@dirs, @d);
+    @dir-name: extract(@dir-names, @d);
+
+    .m-@{dir}-@{i} {
+      margin-@{dir-name}: unit(@i * 4, px) !important;
+    }
+
+    .m-@{dir}-n@{i} {
+      margin-@{dir-name}: unit(0 - @i * 4, px) !important;
+    }
+
+    .p-@{dir}-@{i} {
+      padding-@{dir-name}: unit(@i * 4, px) !important;
+    }
+  });
+
+  each(range(2), .(@d1) {
+    each(range(3, 4), .(@d2) {
+      @dir1: extract(@dirs, @d1);
+      @dir2: extract(@dirs, @d2);
+      @dir-name1: extract(@dir-names, @d1);
+      @dir-name2: extract(@dir-names, @d2);
+
+      .r-@{dir1}@{dir2}-@{i} {
+        border-@{dir-name1}-@{dir-name2}-radius: unit(@i * 4, px) !important;
+      }
+    });
+  });
+
+  each(range(0, 8), .(@j) {
+    .m-@{i}-@{j} {
+      margin: unit(@i * 4, px) unit(@j * 4, px) !important;
+    }
+
+    .p-@{i}-@{j} {
+      padding: unit(@i * 4, px) unit(@j * 4, px) !important;
+    }
+
+    .r-@{i}-@{j} {
+      border-radius: unit(@i * 4, px) unit(@j * 4, px) !important;
+    }
+  });
 });

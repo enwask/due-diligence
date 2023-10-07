@@ -1,10 +1,12 @@
-@import "../lib/css/schema.min.css";
 @import "util.less";
+@import "../lib/css/schema.min.css";
+@import "../lib/fonts/css/font-awesome.min.css";
 
 // Google Fonts
-@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@500&family=Inter:wght@400;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400&display=swap');
 
+// Colors
 @fg: #42434B;
 @bg: #F9F6F3;
 @bg-box: #F0EDE9;
@@ -21,6 +23,29 @@
 
 .gabarito {
   font-family: 'Gabarito', sans-serif;
+}
+
+.fa-05x {
+  font-size: .5em;
+}
+
+.fa-075x {
+  font-size: .75em;
+}
+
+.center {
+  text-align: center;
+}
+
+@wts: 300, 400, 500;
+each(@wts, .(@w) {
+  .wt-@{w} {
+    font-weight: @w;
+  }
+});
+
+.lh-1 {
+  line-height: 1em;
 }
 
 // Coloring
@@ -41,11 +66,11 @@
   background: @bg-sec;
 }
 
-.fg2:hover {
+.fg2h {
   color: @fg-sec-hover;
 }
 
-.bg2:hover {
+.bg2h {
   background: @bg-sec-hover;
 }
 
@@ -53,15 +78,115 @@
   background: @bg-box;
 }
 
+// Misc
+
+hr {
+  border: none;
+}
+
+// Basic styling
+
 body, #main {
   .fg1();
   .bg1();
 }
 
 #sidebar {
+  overflow: hidden;
   .bg2();
 
   * {
     .fg2();
   }
 }
+
+.nav-btn {
+  display: flex !important;
+  column-gap: 8px;
+  align-items: center;
+
+  .fg2() !important;
+  .bg2() !important;
+
+  .icon-box {
+    .bg1();
+    display: inline-block;
+    height: 100%;
+    padding: 2px 8px 5px 8px;
+    border-radius: 8px;
+
+    * {
+      .fg1() !important;
+      margin: 0 !important;
+    }
+  }
+}
+
+.nav-btn:hover {
+  .fg2h() !important;
+  .bg2h() !important;
+}
+
+.nav-btn.true {
+  width: 120% !important;
+  .bg1() !important;
+
+  * {
+    .fg1() !important;
+  }
+
+  .icon-box {
+    .bg2();
+
+    * {
+      .fg2() !important;
+    }
+  }
+}
+
+each(range(1, 3), .(@i) {
+  @offset: unit((@i - 1) * (28.6 + 24 + 16), px);
+
+  .nav-btn:nth-of-type(@{i}).true::before {
+    content: "";
+    display: block;
+    width: 16px;
+    height: 28.5px + 24px + 32px;
+
+    position: absolute;
+    top: -16px + @offset;
+    right: -16px;
+
+    .bg1();
+  }
+
+  .nav-btn:nth-of-type(@{i}).true .icon-box::before {
+    content: "";
+    display: block;
+    width: 16px;
+    height: 16px;
+
+    position: absolute;
+    top: -16px + @offset;
+    right: -16px;
+
+    .bg2();
+    border-bottom-right-radius: 16px;
+    z-index: 1000;
+  }
+
+  .nav-btn:nth-of-type(@{i}).true .h3::before {
+    content: "";
+    display: block;
+    width: 16px;
+    height: 16px;
+
+    position: absolute;
+    top: 28.5px + 24px + @offset + unit(((@i - 1) / 8), px);
+    right: -16px;
+
+    .bg2();
+    border-top-right-radius: 16px;
+    z-index: 1000;
+  }
+});
