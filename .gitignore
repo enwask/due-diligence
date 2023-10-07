@@ -11,9 +11,9 @@ instance/
 .idea/**/shelf
 
 # Generated files
-static/css/
+/static/css/
 .idea/**/contentModel.xml
 **/.DS_STORE
 
 # Virtualenv
-lib/
+/lib/
