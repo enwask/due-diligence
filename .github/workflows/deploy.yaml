@@ -31,20 +31,20 @@ jobs:
         continue-on-error: true
         run: npm install less -g
 
-      - name: Cache Less files
-        id: cache-less
+      - name: Cache CSS files
+        id: cache-css
         uses: actions/cache@v3
         env:
-          cache-name: cache-less-css
+          cache-name: cache-css
         with:
-          path: static/less
+          path: static/css
           key: ${{ runner.OS }}-build-${{ env.cache-name }}-${{ hashFiles('**/static/less') }}
 
-      - if: ${{ steps.cache-less.outputs.cache-hit != 'true' }}
+      - if: ${{ steps.cache-css.outputs.cache-hit != 'true' }}
         name: Build CSS files
         run: |
           for file in static/less/*; do
-            npx lessc $file static/css/$(basename $file .less).css --source-map
+            lessc $file static/css/$(basename $file .less).css --source-map
           done
 
       - name: Authenticate Google Cloud
