@@ -4,3 +4,4 @@ google-cloud-secret-manager
 semantic-kernel
 gunicorn
 certifi
+requests
