@@ -95,7 +95,7 @@
             let max_freq = 0;
             for (const [product, specs] of Object.entries(data)) {
                 for (let key in specs) {
-                    if (key === 'url' || key === "thumbnail") continue;
+                    if (key === 'url' || key === "price" || key === "thumbnail") continue;
 
                     if (key in freq) freq[key]++;
                     else freq[key] = 1;
@@ -115,7 +115,7 @@
             table.innerHTML = '';
 
             let header = document.createElement('tr');
-            header.innerHTML = `<th>Product</th>`;
+            header.innerHTML = `<th>Product</th><th>Price</th>`;
             for (let key in freq) {
                 if (freq[key] >= 2) {
                     header.innerHTML += `<th>${key}</th>`;
@@ -125,7 +125,7 @@
 
             for (const [product, specs] of Object.entries(data)) {
                 let row = document.createElement('tr');
-                row.innerHTML = `<td><a href="${specs['url']}">${product}</a></td>`;
+                row.innerHTML = `<td><a href="${specs['url']}">${product}</a></td><td>\$${specs['price'].toFixed(2)}</td>`;
                 for (let key in freq) {
                     if (freq[key] >= 2) {
                         if (key in specs) {
