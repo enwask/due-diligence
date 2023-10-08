@@ -1,0 +1,38 @@
+@import (reference) "global.less";
+
+#search {
+  width: 60%;
+
+  input[type="text"] {
+    .fg1();
+    .bg3();
+
+    border-width: 2.5px;
+    border-color: @fg;
+    border-style: solid;
+    box-shadow: fade(@bg-sec, 0%) 0 8px 32px;
+
+    transition: border-color .4s, box-shadow 1s;
+
+    &:focus {
+      border-color: @bg-sec;
+      box-shadow: fade(@bg-sec, 32%) 0 8px 32px;
+    }
+  }
+
+  ::placeholder {
+    color: desaturate(darken(@bg, 20%), 40%) !important;
+  }
+}
+
+#submit {
+  position: absolute;
+  top: 48px;
+  left: calc(64% - 40px);
+  cursor: pointer;
+  transition: color .2s;
+}
+
+#search input[type="text"]:focus + #submit {
+  .bg2-fg();
+}

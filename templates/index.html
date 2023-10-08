@@ -1,7 +1,52 @@
 {% extends "layout.html" %}
 {% block title %}Compare Products{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+{% endblock %}
 {% block btn_search_active %}true{% endblock %}
 
 {% block main %}
-    <p>Page content here</p>
+    <form id="search">
+        <label>
+            <input type="text" name="q" placeholder="I'm looking for..." autocomplete="off"
+                   class="r-16 p-3-8 h2 w-fill wt-300"/>
+            <span id="submit"><i class="fa fa-arrow-right fa-2x"></i></span>
+        </label>
+    </form>
+    {#    <div id="search-bar">#}
+    {#        <form action="{{ url_for('search') }}" method="get">#}
+    {#            <input type="text" name="q" placeholder="Search for products">#}
+    {#            <button type="submit">Search</button>#}
+    {#        </form>#}
+    {#    </div>#}
+{% endblock %}
+
+{% block end_body %}
+    <script type="text/javascript">
+        document.onkeydown = function (e) {
+            let search_bar = document.querySelector('input[name="q"]');
+
+            if (e.key === "/") {
+                e.preventDefault();
+                search_bar.focus();
+            } else if (e.key === "Enter") {
+                e.preventDefault();
+                submit_search(search_bar.value);
+            }
+        }
+
+        document.querySelector('#submit').onclick = function (e) {
+            e.preventDefault();
+            let search_bar = document.querySelector('input[name="q"]');
+            submit_search(search_bar.value);
+        }
+
+        function submit_search(q) {
+            console.log(q);
+        }
+    </script>
+
+    <script type="text/javascript">
+
+    </script>
 {% endblock %}

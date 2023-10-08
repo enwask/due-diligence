@@ -54,10 +54,12 @@
             </div>
         </div>
 
-        <div id="main" class="col10 h-fill p-2">
+        <div id="main" class="col10 h-fill p-8-8 m-0">
             {% block main %}{% endblock %}
         </div>
     </div>
 </div>
+<script type="application/javascript" src="{{ url_for('static', filename='lib/js/jquery-1.11.1.min.js') }}"></script>
+{% block end_body %}{% endblock %}
 </body>
 </html>
