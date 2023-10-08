@@ -33,7 +33,7 @@ def __get_secret_openai(version_id: str = "latest"):
 # Fetch the Google Search key, from .env (if running locally) or from the Secret Manager
 def __get_secret_google_search(version_id: str = "latest"):
     # If running locally, use the key in the .env file
-    if env("SERVER_SOFTWARE", "").startswith("Development"):
+    if env("SERVER_SOFTWARE", "Dev").startswith("Dev"):
         print("Using local Google Search key")
         return env("GOOGLE_SEARCH_API_KEY")
 
