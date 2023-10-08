@@ -1,7 +1,8 @@
 @import (reference) "global.less";
+@import "loader.less";
 
 #search {
-  width: 60%;
+  width: 100%;
 
   input[type="text"] {
     .fg1();
@@ -18,6 +19,10 @@
       border-color: @bg-sec;
       box-shadow: fade(@bg-sec, 32%) 0 8px 32px;
     }
+
+    &:disabled {
+      opacity: .6;
+    }
   }
 
   ::placeholder {
@@ -28,11 +33,45 @@
 #submit {
   position: absolute;
   top: 48px;
-  left: calc(64% - 40px);
+  right: 86px;
   cursor: pointer;
   transition: color .2s;
 }
 
 #search input[type="text"]:focus + #submit {
   .bg2-fg();
+}
+
+#comparison-table {
+  width: 100%;
+  margin-top: 32px;
+
+  @br: 8px;
+  border: @fg 2.5px solid;
+  border-radius: @br !important;
+  border-collapse: initial !important;
+
+  * {
+    border: desaturate(darken(@bg-box, 5%), 10%) .75px solid;
+    padding: 4px;
+    //border-radius: 4px !important;
+  }
+
+  tr {
+    :first-child {
+      border-left: none;
+    }
+
+    :last-child {
+      border-right: none;
+    }
+  }
+
+  tr:first-of-type * {
+    border-top: none;
+  }
+
+  tr:last-of-type * {
+    border-bottom: none;
+  }
 }

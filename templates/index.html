@@ -13,16 +13,35 @@
             <span id="submit"><i class="fa fa-arrow-right fa-2x"></i></span>
         </label>
     </form>
-    {#    <div id="search-bar">#}
-    {#        <form action="{{ url_for('search') }}" method="get">#}
-    {#            <input type="text" name="q" placeholder="Search for products">#}
-    {#            <button type="submit">Search</button>#}
-    {#        </form>#}
-    {#    </div>#}
+
+    <!--
+    Remember to add hover effects!!!
+    If you're seeing this, I didn't remember :(
+    -->
+    <table id="comparison-table" class="table table-bordered h4">
+    </table>
 {% endblock %}
 
 {% block end_body %}
+    <!-- Awful pre-generated loader thing -->
+    <div id="loader" class="loadingio-spinner-gear-ks8ve7hl1z">
+        <div class="ldio-q4gquvbry6">
+            <div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="application/javascript"
+            src="{{ url_for('static', filename='lib/js/jquery-1.11.1.min.js') }}"></script>
     <script type="text/javascript">
+        let waiting = false;
+
         document.onkeydown = function (e) {
             let search_bar = document.querySelector('input[name="q"]');
 
@@ -42,11 +61,82 @@
         }
 
         function submit_search(q) {
-            console.log(q);
+            $('input[name="q"]').blur();
+
+            if (waiting) {
+                return
+            }
+
+            waiting = true;
+            $('#loader').css('display', 'block');
+            $('input[name="q"]').prop('disabled', true);
+
+            console.log(`Sending comparison query "${q}"`);
+            $.ajax({
+                url: `/compare/${q}`,
+                type: "GET",
+                dataType: "json",
+                success: on_search_complete,
+                error: alert
+            });
         }
-    </script>
 
-    <script type="text/javascript">
+        {#let key_filters = [#}
+        {#    'Display', 'Storage', 'Zoom'#}
+        {#]#}
 
+        function on_search_complete(data) {
+            waiting = false;
+            $('#loader').css('display', 'none');
+            $('input[name="q"]').prop('disabled', false);
+            console.log(data);
+
+            let freq = {}
+            let max_freq = 0;
+            for (const [product, specs] of Object.entries(data)) {
+                for (let key in specs) {
+                    if (key in ['url', 'thumbnail']) continue;
+
+                    if (key in freq) freq[key]++;
+                    else freq[key] = 1;
+
+                    if (freq[key] > max_freq) max_freq = freq[key];
+                }
+            }
+
+            if (max_freq <= 1) {
+                alert("Malformed LLM output! Please try again (it's not you, it's me).");
+                return;
+            }
+
+            // Awful convoluted table generation logic, but I haven't slept in 24 hours
+            // and I have to submit this in 2 hours
+            let table = document.querySelector('#comparison-table');
+            table.innerHTML = '';
+
+            let header = document.createElement('tr');
+            header.innerHTML = `<th>Product</th>`;
+            for (let key in freq) {
+                if (freq[key] >= 2) {
+                    header.innerHTML += `<th>${key}</th>`;
+                }
+            }
+            table.appendChild(header);
+
+            for (const [product, specs] of Object.entries(data)) {
+                let row = document.createElement('tr');
+                row.innerHTML = `<td><a href="${specs['url']}">${product}</a></td>`;
+                for (let key in freq) {
+                    if (freq[key] >= 2) {
+                        if (key in specs) {
+                            row.innerHTML += `<td>${specs[key]}</td>`;
+                        } else {
+                            row.innerHTML += `<td>N/a</td>`;
+                        }
+                    }
+                }
+                table.appendChild(row);
+            }
+        }
     </script>
 {% endblock %}
