@@ -95,7 +95,7 @@
             let max_freq = 0;
             for (const [product, specs] of Object.entries(data)) {
                 for (let key in specs) {
-                    if (key in ['url', 'thumbnail']) continue;
+                    if (key === 'url' || key === "thumbnail") continue;
 
                     if (key in freq) freq[key]++;
                     else freq[key] = 1;
@@ -131,7 +131,7 @@
                         if (key in specs) {
                             row.innerHTML += `<td>${specs[key]}</td>`;
                         } else {
-                            row.innerHTML += `<td>N/a</td>`;
+                            row.innerHTML += `<td>Not specified</td>`;
                         }
                     }
                 }
