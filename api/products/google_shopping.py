@@ -4,16 +4,16 @@ from typing import Any, List
 
 from api.secrets import oxylabs_user, oxylabs_key
 
-__oxylabs_auth = (oxylabs_user, oxylabs_key)
+__ENDPOINT = "https://realtime.oxylabs.io/v1/queries"
+__auth = (oxylabs_user, oxylabs_key)
 
 
 # Get raw JSON results from Oxylabs API
 def __search(query: str, min_price: int = None, max_price: int = None) -> Any:
     payload = {
         "source": "google_shopping_search",
-        "domain": "com",
-        "parse": "true",
-        "query": parse.quote(query)
+        "query": parse.quote(query),
+        "parse": "true"
     }
 
     # Add price constraints if present
@@ -26,7 +26,7 @@ def __search(query: str, min_price: int = None, max_price: int = None) -> Any:
             payload["context"].append({"key": "max_price", "value": max_price})
 
     # Send the request
-    response = requests.post("https://realtime.oxylabs.io/v1/queries", auth=__oxylabs_auth, json=payload)
+    response = requests.post(__ENDPOINT, auth=__auth, json=payload)
     return response.json()
 
 
@@ -60,3 +60,53 @@ def search_products(query: str, min_price: int = None, max_price: int = None, nu
 
     # Limit results if requested
     return res[:min(num, len(res))] if num > 0 else res
+
+
+# Scrapes a Google Shopping product page for more detailed information
+def __get_product_info(product_id: str) -> Any:
+    payload = {
+        "source": "google_shopping_product",
+        "query": parse.quote(product_id),
+        "parse": "true"
+    }
+
+    # Send the request
+    response = requests.post(__ENDPOINT, auth=__auth, json=payload)
+    return response.json()
+
+
+# Retrieves the top review for a given product ID, truncated to the max length (in characters) if specified
+# If no reviews are found, returns None
+def get_top_review(product_id: str, max_len: int = 0) -> str | None:
+    results = __get_product_info(product_id)
+
+    # Extract top review if present
+    try:
+        res = results["results"][0]["content"]["reviews"]["top_review"]["text"]
+    except KeyError:
+        return None
+
+    # Clean up review string and return
+    if res.endswith(" Less"):
+        res = res[:-5]
+
+    # Truncate if requested
+    return res[:min(max_len, len(res))] if max_len > 0 else res
+
+
+# Gets a product's long-form description from its Google Shopping page
+def get_description(product_id: str, num_chars: int = 0) -> str:
+    results = __get_product_info(product_id)
+
+    # Extract description if present
+    res = results["results"][0]["content"]["description"]
+
+    # Clean up description string and return
+    res = (res[:-5] if res.endswith(" Less") else res).replace("%20", ' ')
+
+    # Truncate if requested
+    return res[:min(num_chars, len(res))] if num_chars > 0 else res
+
+
+# TODO: Everything here should probably be asynchronous
+__all__ = ["search_products", "get_top_review", "get_description"]
