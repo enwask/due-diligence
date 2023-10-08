@@ -20,8 +20,9 @@ def fetch_products(query: str, num: int = 5, max_desc_len: int = 200) -> List[An
         print(f"Product name: {search_results[i]['title']}")
 
         product = search_results[i]
+        title_split = product["title"].replace(" - ", " ").split(' ')
         res[i] = {
-            "title": product["title"],  # str
+            "title": ' '.join(title_split[:6]) + ("..." if len(title_split) > 6 else ""),  # str
             "price": product["price"],  # float
             "url": product["url"],  # str
             "thumbnail": product["thumbnail"],  # str

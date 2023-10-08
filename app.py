@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, Response
 from api.comparison import fetch_products, compare_products
+import json
 
 app = Flask(__name__)
 
@@ -26,12 +27,23 @@ def compare(query: str):
         return "Bad request", 400
 
     # Run the product search and comparison
-    products = fetch_products(query)
+    products = fetch_products(query, max_desc_len=400)
     ctx = compare_products(products)
 
+
     # Return a JSON response
-    json = ctx.result
-    return Response(json, mimetype='application/json')
+    print("STRING:")
+    print(ctx.result)
+    print("END STRING")
+    res = json.loads(ctx.result)
+
+    i = 0
+    for key, value in res.items():
+        res[key]["url"] = products[i]["url"]
+        res[key]["thumbnail"] = products[i]["thumbnail"]
+        i += 1
+
+    return Response(json.dumps(res), mimetype='application/json')
 
 
 if __name__ == '__main__':
