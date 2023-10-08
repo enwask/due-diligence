@@ -13,19 +13,21 @@ from api.secrets import openai_key, google_search_key
 from api.semantics.skills import load_skill
 
 # Construct the semantic kernel and add OpenAI chat service
-kernel = sk.Kernel()
-kernel.add_chat_service("chat-gpt", OpenAIChatCompletion("gpt-3.5-turbo", openai_key))
+__kernel = sk.Kernel()
+__kernel.add_chat_service("chat-gpt", OpenAIChatCompletion("gpt-3.5-turbo", openai_key))
 
 # Set up the Google Search connector
-CUSTOM_SEARCH_ID = "c1f73ff9ebb8a473a"
-google_search_connector = GoogleConnector(api_key=google_search_key, search_engine_id=CUSTOM_SEARCH_ID)
+__CUSTOM_SEARCH_ID = "c1f73ff9ebb8a473a"  # Search engine ID; publicly available anyway
+__google_search_connector = GoogleConnector(api_key=google_search_key, search_engine_id=__CUSTOM_SEARCH_ID)
 
-# Set up the Google search skill
+# Set up the skills we need
 Skill: TypeAlias = Dict[str, SKFunctionBase]
 
-web_search_skill: Skill = kernel.import_skill(WebSearchEngineSkill(google_search_connector))
-comparison_skill: Skill = load_skill(kernel, "Comparison")
+__comparison_skill: Skill = load_skill(__kernel, "Comparison")
+__search_skill: Skill = __kernel.import_skill(WebSearchEngineSkill(__google_search_connector), "Search")
 
+# Get the functions we need from the kernel skills
+compare_products_function: SKFunctionBase = __comparison_skill["CompareProducts"]
+async_search_function: SKFunctionBase = __search_skill["searchAsync"]
 
-# Get the skill functions
-compare_products_function: SKFunctionBase = comparison_skill["CompareProducts"]
+__all__ = ["compare_products_function", "async_search_function"]
