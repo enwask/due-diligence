@@ -128,10 +128,10 @@
                 row.innerHTML = `<td><a href="${specs['url']}">${product}</a></td><td>\$${specs['price'].toFixed(2)}</td>`;
                 for (let key in freq) {
                     if (freq[key] >= 2) {
-                        if (key in specs) {
-                            row.innerHTML += `<td>${(specs[key] === 'Not specified') ? 'n/a' : specs[key]}</td>`;
+                        if ((key in specs) && (specs[key] !== 'Not specified')) {
+                            row.innerHTML += `<td>${specs[key]}</td>`;
                         } else {
-                            row.innerHTML += `<td>n/a</td>`;
+                            row.innerHTML += `<td style="opacity: .6 !important">n/a</td>`;
                         }
                     }
                 }
