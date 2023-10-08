@@ -17,3 +17,6 @@ instance/
 
 # Virtualenv
 /lib/
+
+# API keys & secrets
+/secrets/
