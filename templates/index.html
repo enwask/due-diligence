@@ -129,9 +129,9 @@
                 for (let key in freq) {
                     if (freq[key] >= 2) {
                         if (key in specs) {
-                            row.innerHTML += `<td>${specs[key]}</td>`;
+                            row.innerHTML += `<td>${(specs[key] === 'Not specified') ? 'n/a' : specs[key]}</td>`;
                         } else {
-                            row.innerHTML += `<td>Not specified</td>`;
+                            row.innerHTML += `<td>n/a</td>`;
                         }
                     }
                 }

@@ -16,7 +16,7 @@ def fetch_products(query: str, num: int = 5, max_desc_len: int = 200) -> List[An
 
     # Recursively add the data we want for each product
     for i in range(len(search_results)):
-        print(f"Fetching data for product {i + 1}/{len(search_results)}")
+        print(f"\nFetching data for product {i + 1}/{len(search_results)}")
         print(f"Product name: {search_results[i]['title']}")
 
         product = search_results[i]
@@ -41,10 +41,10 @@ def compare_products(products: List[Any]) -> SKContext:
         f"{product['title']}\nDescription: {product['description']}"
         for product in products])
 
-    print("Full prompt:")
+    print("\nFull prompt:\n")
     print(prompt)
 
-    print("Thinking...")
+    print("\nThinking...")
 
     # Send the prompt to the kernel and return the result
     return compare(prompt)
