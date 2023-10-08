@@ -40,7 +40,7 @@ def compare(query: str):
     i = 0
     for key, value in res.items():
         res[key]["url"] = products[i]["url"]
-        res[key]["price"] = products[i]["price"]
+        res[key]["Price"] = products[i]["price"]
         res[key]["thumbnail"] = products[i]["thumbnail"]
         i += 1
 
@@ -48,4 +48,4 @@ def compare(query: str):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(processes=4, threaded=True)
