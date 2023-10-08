@@ -1,4 +1,4 @@
-runtime: python39
+runtime: python310
 entrypoint: python main.py
 
 handlers:
