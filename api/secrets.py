@@ -41,7 +41,7 @@ def __get_secret_google_search(version_id: str = "latest"):
     return __get_secret(__GOOGLE_SEARCH_KEY_ID, version_id)
 
 
-openai_key = __get_secret_openai()
-google_search_key = __get_secret_google_search()
+openai_key: str = __get_secret_openai()
+google_search_key: str = __get_secret_google_search()
 
 __all__ = ["openai_key", "google_search_key"]
