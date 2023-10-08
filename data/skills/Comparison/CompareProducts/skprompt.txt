@@ -1,0 +1,15 @@
+Compare products based on the provided product descriptions.
+- Compare the products provided, including their names, descriptions, and specifications.
+- Compare relevant product speciﬁcations or details.
+- Do not invent new speciﬁcations.
+- Generate a table that compares relevant data for the products.
+- Compare meaningful measurements and data, not vague marketing terms.
+- Can use broken English.
+- Conciseness is key.
+- NO LONG SENTENCES. SHORT AND SIMPLE.
+- ONLY USEFUL INFORMATION, NO BUZZWORDS.
+- DO NOT USE PRIOR KNOWLEDGE TO ANSWER THE PROMPT.
+- Return in JSON
+
+Products:
+{{$input}}
