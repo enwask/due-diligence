@@ -3,3 +3,4 @@ google-cloud-aiplatform
 google-cloud-secret-manager
 semantic-kernel
 gunicorn
+certifi
