@@ -2,6 +2,6 @@ Flask==3.0.0
 google-cloud-aiplatform
 google-cloud-secret-manager
 semantic-kernel
-gunicorn
+gunicorn==20.1.0
 certifi
 requests
