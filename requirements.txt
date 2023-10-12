@@ -1,7 +1,8 @@
+# Common
 Flask==3.0.0
-google-cloud-aiplatform
-google-cloud-secret-manager
-semantic-kernel
+beautifulsoup4==4.12.2
+requests==2.31.0
+certifi==2023.7.22
+
+# Production
 gunicorn==20.1.0
-certifi
-requests
