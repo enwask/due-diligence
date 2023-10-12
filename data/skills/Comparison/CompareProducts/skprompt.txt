@@ -5,6 +5,8 @@ Extract technical specifications from the product descriptions.
 - NO LONG SENTENCES. SHORT AND SIMPLE.
 - ONLY USEFUL INFORMATION, NO BUZZWORDS. NO VAGUE ADJECTIVES. JUST FACTS.
 - DO NOT USE PRIOR KNOWLEDGE TO ANSWER THE PROMPT.
+- Maximize the number of specifications products have in common.
+- Use product names as keys in the JSON object.
 - Return in JSON
 
 Products:
