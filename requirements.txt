@@ -3,6 +3,7 @@ Flask==3.0.0
 beautifulsoup4==4.12.2
 requests==2.31.0
 certifi==2023.7.22
+selenium==4.14.0
 
 # Production
 gunicorn==20.1.0
