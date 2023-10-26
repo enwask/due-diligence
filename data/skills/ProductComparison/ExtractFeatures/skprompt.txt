@@ -1,0 +1,16 @@
+Extract technical specifications from the product description.
+- Return a JSON dictionary mapping GENERAL, LOWERCASE feature names to their corresponding values.
+- Use feature keys like these examples: "weight", "screen size", "resolution", "storage", "fabric", "material", "thickness", "dimensions", etc.
+- Only use feature keys relevant to the product.
+- Use feature keys that are common to products of the same type, so they can be compared.
+- ONLY INCLUDE SPECIFIC, CONCRETE MEASUREMENTS, DATA AND FEATURES. NO MARKETING BUZZWORDS.
+- NO LONG SENTENCES. SHORT AND SIMPLE.
+- ONLY USEFUL INFORMATION, NO BUZZWORDS. NO VAGUE ADJECTIVES. JUST FACTS.
+- Any yes/no features should be converted to lowercase "yes" or "no".
+- Include many general features that related products are likely to also specify, for comparison.
+- Return in JSON.
+
+Product description:
+{{$input}}
+
+Product features:
