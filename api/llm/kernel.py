@@ -10,6 +10,10 @@ kernel.add_chat_service("chat-gpt", OpenAIChatCompletion("gpt-3.5-turbo", OPENAI
 # Set up the product comparison skill
 product_comparison: Skill = load_skill(kernel, "ProductComparison")
 
-# Expose the skill functions
-extract_features: SkillFunction = get_skill_function(product_comparison, "ExtractFeatures")
-extract_features_async: AsyncSkillFunction = get_async_skill_function(product_comparison, "ExtractFeatures")
+# Skill functions for extracting features
+extract_features_fun: SkillFunction = get_skill_function(product_comparison, "ExtractFeatures")
+extract_features_async_fun: AsyncSkillFunction = get_async_skill_function(product_comparison, "ExtractFeatures")
+
+# Skill functions for shortening product names
+shorten_name_fun: SkillFunction = get_skill_function(product_comparison, "ShortenName")
+shorten_name_async_fun: AsyncSkillFunction = get_async_skill_function(product_comparison, "ShortenName")
