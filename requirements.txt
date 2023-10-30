@@ -1,7 +1,9 @@
-# Server and templating
+# Server
 fastapi==0.104.0
 starlette==0.31.0
 uvicorn==0.23.2
+
+# Templating
 ninjadog==0.5.2
 jinja2==3.1.2
 
@@ -11,4 +13,3 @@ bestbuyapi==2.0.0
 
 # LLM
 semantic-kernel==0.3.14.dev0
-google-cloud-secret-manager==2.16.4
