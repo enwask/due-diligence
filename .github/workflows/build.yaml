@@ -1,8 +1,8 @@
-name: Build and Deploy
+name: Build
 on: [ push ]
 jobs:
   deploy:
-    name: Build and Deploy
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,11 +32,3 @@ jobs:
           for file in static/less/*; do
             lessc $file static/css/$(basename $file .less).css --source-map
           done
-
-#      - name: Authenticate Google Cloud
-#        uses: google-github-actions/auth@v1
-#        with:
-#          credentials_json: ${{ secrets.GOOGLE_CLOUD_KEY }}
-#
-#      - name: Deploy to Google App Engine
-#        uses: google-github-actions/deploy-appengine@v1
