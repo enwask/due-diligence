@@ -10,7 +10,8 @@ Extract technical specifications from the product description.
 - Convert yes/no features to LOWERCASE boolean values: "true" or "false".
 - Include many general features that related products also have, for comparison.
 - USE CONSISTENT FEATURE KEYS AND VALUE FORMATS FOR PRODUCTS OF SIMILAR TYPES.
-- If any feature value is not available, return "null" (without quotes) for that feature.
+- When any feature value is not available, omit it from the dictionary. Do not return null or empty or "n/a" values.
+- When possible use one-word keys.
 - DO NOT USE PREVIOUS KNOWLEDGE TO ASSUME ANYTHING ABOUT THE PRODUCT.
 
 Product description:
