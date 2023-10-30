@@ -1,7 +1,7 @@
 from bestbuyapi import BestBuyAPI
 
-from api.data.product import Product, ProductBase
-from api.data.vendor import Vendor
+from api.vendor.product import Product, ProductBase
+from api.vendor.vendor import Vendor
 from api.secrets import BEST_BUY_KEY
 
 api = BestBuyAPI(BEST_BUY_KEY)
@@ -46,6 +46,7 @@ class BestBuy(ProductBase):
 
                 # Add the product to the list
                 products.append(Product(
+                    Vendor.BEST_BUY,
                     str(item["sku"]),  # SKU is numeric
                     item["name"],
                     desc,

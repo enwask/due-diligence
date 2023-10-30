@@ -1,5 +1,5 @@
-from api.data.product import Product, ProductBase
-from api.data.vendor import Vendor
+from api.vendor.product import Product, ProductBase
+from api.vendor.vendor import Vendor
 
 
 class Etsy(ProductBase):

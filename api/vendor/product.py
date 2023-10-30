@@ -1,10 +1,12 @@
 from typing import Optional, Protocol
 
-from api.data.vendor import Vendor
+from api.vendor.vendor import Vendor
 
 
 class Product:
-    def __init__(self, id_: str, name: str, desc: str, price: float, url: str, img: Optional[str] = None) -> None:
+    def __init__(self, vendor: Vendor, id_: str, name: str, desc: str, price: float, url: str,
+                 img: Optional[str] = None) -> None:
+        self.vendor = vendor
         self.id: str = id_
         self.name: str = name
         self.desc: str = desc
@@ -18,7 +20,7 @@ class ProductBase(Protocol):
     def __init__(self) -> None: ...
 
     # Gets the vendor associated with this product database
-    def get_vendor_str(self) -> Vendor: ...
+    def get_vendor(self) -> Vendor: ...
 
     # Gets a product by its id
     def get_product(self, product_id: str, **kwargs: any) -> Product: ...

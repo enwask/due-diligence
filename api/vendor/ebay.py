@@ -1,7 +1,7 @@
 from ebaysdk.finding import Connection as Search
 
-from api.data.product import Product, ProductBase
-from api.data.vendor import Vendor
+from api.vendor.product import Product, ProductBase
+from api.vendor.vendor import Vendor
 
 # Set up the eBay API
 APP_ID = "NicWashb-DueDilig-PRD-7fc7ec590-ff2c0d48"
