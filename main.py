@@ -3,17 +3,25 @@ from os.path import abspath
 from urllib.parse import quote
 
 from fastapi import FastAPI, HTTPException
+from fastapi.exception_handlers import http_exception_handler as fastapi_handle_http_exception
 from fastapi.responses import StreamingResponse
-from starlette.responses import HTMLResponse
+from starlette.requests import Request
+from starlette.responses import HTMLResponse, Response
+from starlette.staticfiles import StaticFiles
 
 from api.llm import fix_product_names_async, collect_features_async
 from api.response import LoadStatus, ProductData, LoadError
 from api.vendor import Vendor, vendors
 from api.website.pug import PugRenderer
 
-# Create FastAPI app and template renderer
+# Create FastAPI app and mount static files
 app = FastAPI()
+app.mount("/static", StaticFiles(directory=abspath("static")), name="static")
+
+# Create template renderer and default context
 templates = PugRenderer(abspath("static/templates"))
+default_context = {
+}
 
 
 # Decorator for asynchronous template routes
@@ -21,7 +29,13 @@ def template(route: str) -> callable:
     def wrapper(func: callable) -> callable:
         @app.get(route, response_class=HTMLResponse)
         async def template_route():
-            return templates.response(*await func())
+            # Add returned context to a copy of the default context
+            res, add = await func()
+            ctx = default_context.copy()
+            ctx.update(add)
+
+            # Render template and return response
+            return templates.response(res, ctx)
 
         return func
 
@@ -36,16 +50,21 @@ TemplateResponse: type = tuple[str, dict[str, any]]
 @cache
 @app.exception_handler(404)
 # @template("/404")
-async def error_404(request: any, _: Exception):
-    return await http_exception(request, HTTPException(status_code=404, detail="We couldn't find the requested page."))
+async def error_404(request: Request, _: Exception):
+    return await handle_http_exception(request,
+                                       HTTPException(status_code=404, detail="We couldn't find the requested page."))
 
 
 @app.exception_handler(HTTPException)
-async def http_exception(_: any, exception: HTTPException) -> HTMLResponse:
-    return HTMLResponse(templates.render("error.pug", {
-        "status_code": exception.status_code,
-        "detail": exception.detail
-    }))
+async def handle_http_exception(request: Request, exception: HTTPException) -> Response:
+    accepts = request.headers.get("accept", "")
+    if "text/html" in accepts:
+        return HTMLResponse(templates.render("error.pug", {
+            "status_code": exception.status_code,
+            "detail": exception.detail
+        }))
+    else:
+        return await fastapi_handle_http_exception(request, exception)
 
 
 # Product comparison endpoint
