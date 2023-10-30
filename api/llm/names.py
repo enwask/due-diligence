@@ -1,6 +1,6 @@
 from asyncio import create_task, gather
 
-from api.data import Product
+from api.vendor import Product
 from api.llm import shorten_name_async_fun
 
 
