@@ -2,22 +2,63 @@
 //@import "../lib/css/schema.min.css";
 //@import "../lib/fonts/css/font-awesome.min.css";
 
-// Google Fonts
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400&display=swap');
+// Fonts and icons
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400&family=Overpass:wght@600&family=Inter:wght@300;500&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
 
 // Colors
-@fg: #42434B;
+@fg: #2e303d;
 @bg: #F9F6F3;
+@fg-subtle: fade(@fg, 30%);
+@fg-subtler: fade(@fg, 5%);
+@primary: #0d6efd;
+
+.fg {
+  color: @fg !important;
+}
+
+.fg-subtle {
+  color: @fg-subtle !important;
+}
+
+.bg-fg {
+  background: @fg !important;
+}
+
+.bg-fg-subtle {
+  background: @fg-subtle !important;
+}
+
+.text-bg {
+  color: @bg !important;
+}
+
+// Sizes
+@corner-sm: 5px;
+@corner-md: 10px;
+@corner-lg: 28px;
+
+.corner-sm {
+  border-radius: @corner-sm;
+}
+
+.corner-md {
+  border-radius: @corner-md;
+}
+
+.corner-lg {
+  border-radius: @corner-lg;
+}
 
 // Fonts
 
-:root {
-  font-family: 'Inter', sans-serif;
+* {
+  font-family: 'Epilogue', sans-serif;
+  color: @fg;
 }
 
-.gabarito {
-  font-family: 'Gabarito', sans-serif;
+h1 {
+  font-family: 'Overpass', sans-serif;
 }
 
 .fa-05x {
@@ -26,6 +67,18 @@
 
 .fa-075x {
   font-size: .75em;
+}
+
+.fa-1x {
+  font-size: 1em;
+}
+
+.fa-15x {
+  font-size: 1.5em;
+}
+
+.fa-2x {
+  font-size: 2em;
 }
 
 .center {
@@ -43,11 +96,26 @@ each(@wts, .(@w) {
 
 body {
   background-color: @bg;
-  color: @fg;
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 3em !important;
   line-height: 1;
   margin: 0;
+  padding: 0;
+}
+
+.form-control.no-glow:focus {
+  box-shadow: initial;
+}
+
+.badge {
+  position: relative;
+  top: -.1em;
+  padding-top: .5em !important;
+  color: @bg;
+}
+
+.dropdown-menu {
+  border: 1.5px solid @fg;
 }
