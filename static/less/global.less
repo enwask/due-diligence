@@ -3,14 +3,14 @@
 //@import "../lib/fonts/css/font-awesome.min.css";
 
 // Fonts and icons
-@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400&family=Overpass:wght@600&family=Inter:wght@300;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600&family=Overpass:wght@600&family=JetBrains+Mono:wght@400&display=swap');
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
 
 // Colors
 @fg: #2e303d;
 @bg: #F9F6F3;
 @fg-subtle: fade(@fg, 30%);
-@fg-subtler: fade(@fg, 5%);
+@fg-subtler: fade(@fg, 4%);
 @primary: #0d6efd;
 
 .fg {
@@ -37,6 +37,8 @@
 @corner-sm: 5px;
 @corner-md: 10px;
 @corner-lg: 28px;
+@corner-sizes: @corner-sm, @corner-md, @corner-lg;
+@corner-size-names: sm, md, lg;
 
 .corner-sm {
   border-radius: @corner-sm;
@@ -50,6 +52,27 @@
   border-radius: @corner-lg;
 }
 
+each(range(0, 4), .(@i) {
+  @size: extract(@corner-sizes, @i);
+  @name: extract(@corner-size-names, @i);
+
+  .corner-tl-@{name} {
+    border-top-left-radius: @size;
+  }
+
+  .corner-tr-@{name} {
+    border-top-right-radius: @size;
+  }
+
+  .corner-bl-@{name} {
+    border-bottom-left-radius: @size;
+  }
+
+  .corner-br-@{name} {
+    border-bottom-right-radius: @size;
+  }
+})
+
 // Fonts
 
 * {
@@ -59,6 +82,10 @@
 
 h1 {
   font-family: 'Overpass', sans-serif;
+}
+
+.mono {
+  font-family: 'Jetbrains Mono', monospace;
 }
 
 .fa-05x {
@@ -110,6 +137,7 @@ h1 {
 }
 
 .badge {
+  font-weight: 400;
   position: relative;
   top: -.1em;
   padding-top: .5em !important;
@@ -118,4 +146,9 @@ h1 {
 
 .dropdown-menu {
   border: 1.5px solid @fg;
+  box-shadow: 0 5px 10px fade(@fg, 25%);
+}
+
+hr.dropdown-divider {
+  border-top: 1.5px solid @fg;
 }
