@@ -1,0 +1,49 @@
+extends root
+
+block append css
+    link(rel="stylesheet" href="static/css/search.css")
+
+block content
+    h1.mb-2.mb-sm-3.text-start.text-sm-center Due Diligence
+
+    div.row
+        div.col
+        div#search-cont.text-start.col-md-9.col-lg-7
+            div#search-bar-cont
+                input#search-bar.form-control(
+                    type="text"
+                    name="query"
+                    autocomplete="off"
+                    placeholder="I'm looking for..."
+                    autofocus="autofocus"
+                )
+                div#search-bar-btn-cont
+                    button#search-bar-btn.btn.btn-primary.corner-lg(type="button")
+                        i.bi.bi-arrow-right-short.fa-2x
+
+            div#search-vendor.dropdown.mt-2
+                button#search-vendor-btn.btn.btn-secondary.dropdown-toggle(
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                ) Select vendor&nbsp;
+                ul#search-vendor-menu.dropdown-menu(aria-labelledby="search-vendor-btn")
+                    //-li
+                    //-    a.dropdown-item.disabled Select vendor
+                    //-li
+                    //-    hr.dropdown-divider
+                    each val in vendors
+                        li
+                            a.dropdown-item(
+                                href="#"
+                                id=val.id
+                                class=val.enabled ? "" : "disabled"
+                            )= val.name
+                                if val.badge !== ""
+                                    span(class=val.enabled ? "bg-fg" : "bg-fg-subtle").badge.m-l-1= val.badge
+        div.col
+
+    div#result-cont.m-t-8.m-b-16
+        div#result
+            h2 Product results go here
