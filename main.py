@@ -68,12 +68,12 @@ async def handle_http_exception(request: Request, exception: HTTPException) -> R
 
 # Product comparison endpoint
 @app.get("/compare/{query}")
-async def compare(query: str, vendor: Vendor = Vendor.BEST_BUY):
+async def compare(query: str, vendor: Vendor = Vendor.BEST_BUY, num: int = 10):
     async def fun():
         try:
             # Search for products
             yield LoadStatus("Searching for products...").str()
-            products = vendors[vendor].search_products(quote(query), 5)
+            products = vendors[vendor].search_products(quote(query), num)
 
             # Fix product names
             yield LoadStatus("Fixing product names...").str()
@@ -84,17 +84,18 @@ async def compare(query: str, vendor: Vendor = Vendor.BEST_BUY):
             num_sent = 0
             async for index, feat in collect_features_async(products):
                 # Send product data
-                yield LoadStatus("Extracting features... (%d/%d)" % (num_sent + 1, len(products))).str()
-                yield ProductData(products[index], feat).str()
+                yield ("[" +
+                       LoadStatus("Extracting features... (%d/%d)" % (num_sent + 1, len(products))).str() + ", " +
+                       ProductData(products[index], feat).str() + "]")
                 num_sent += 1
 
         # Handle error in feature loading
         except Exception as e:
-            yield LoadError("Internal error: " + str(e))
+            yield LoadError("Internal error: " + str(e)).str()
 
     # Return the generator function as a streaming response
     headers = {"X-Content-Type-Options": "nosniff"}
-    return StreamingResponse(fun(), media_type="text/json", headers=headers)
+    return StreamingResponse(fun(), media_type="application/json", headers=headers)
 
 
 # Home page / product comparison frontend
@@ -103,6 +104,7 @@ async def compare(query: str, vendor: Vendor = Vendor.BEST_BUY):
 async def search() -> TemplateResponse:
     return "search.pug", {
         "title": "Search",
+        "default_vendor": "best_buy",
         "vendors": [
             {
                 "id": vendor.value,
