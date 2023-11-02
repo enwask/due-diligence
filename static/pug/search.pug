@@ -3,12 +3,17 @@ extends root
 block append css
     link(rel="stylesheet" href="static/css/search.css")
 
+block append scripts
+    script(type="text/javascript" src="static/js/dropdown.js")
+    script(type="text/javascript" src="static/js/table.js")
+    script(type="text/javascript" src="static/js/search.js")
+
 block content
-    h1.mb-2.mb-sm-3.text-start.text-sm-center Due Diligence
+    h1.mb-2.mb-sm-3.text-start.text-sm-center.m-t-16 Due Diligence
 
     div.row
         div.col
-        div#search-cont.text-start.col-md-9.col-lg-7
+        div#search-cont.text-start.col-md-8.col-lg-6.col-xl-5
             div#search-bar-cont
                 input#search-bar.form-control(
                     type="text"
@@ -21,29 +26,33 @@ block content
                     button#search-bar-btn.btn.btn-primary.corner-lg(type="button")
                         i.bi.bi-arrow-right-short.fa-2x
 
+            //- FIXME: Save vendor selection in a cookie
             div#search-vendor.dropdown.mt-2
                 button#search-vendor-btn.btn.btn-secondary.dropdown-toggle(
                     type="button"
                     data-bs-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
+                    data-vendor=default_vendor
                 ) Select vendor&nbsp;
                 ul#search-vendor-menu.dropdown-menu(aria-labelledby="search-vendor-btn")
-                    //-li
-                    //-    a.dropdown-item.disabled Select vendor
-                    //-li
-                    //-    hr.dropdown-divider
+                    li
+                        a.dropdown-item.disabled Select vendor
+                    li
+                        hr.dropdown-divider
                     each val in vendors
                         li
                             a.dropdown-item(
                                 href="#"
                                 id=val.id
-                                class=val.enabled ? "" : "disabled"
+                                class="search-vendor-option" + (val.enabled ? "" : " disabled")
                             )= val.name
                                 if val.badge !== ""
                                     span(class=val.enabled ? "bg-fg" : "bg-fg-subtle").badge.m-l-1= val.badge
         div.col
 
-    div#result-cont.m-t-8.m-b-16
-        div#result
-            h2 Product results go here
+    div.m-t-10.m-b-16
+        div#result-cont.table-responsive-md.text-start
+            table#result.table.d-none
+                thead
+                tbody
