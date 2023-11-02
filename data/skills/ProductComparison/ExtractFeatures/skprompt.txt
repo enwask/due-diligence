@@ -3,14 +3,13 @@ Extract technical specifications from the product description.
 - Use feature keys like these examples: "weight", "screen size", "resolution", "storage", "memory", etc.
 - Only use feature keys relevant to the product.
 - Use keys common to same-type products, so they can be compared.
-- ONLY SPECIFIC, CONCRETE MEASUREMENTS, DATA AND FEATURES. NO MARKETING BUZZWORDS.
-- Strip extra words and adjectives from feature values.
+- ONLY INCLUDE SPECIFIC, CONCRETE MEASUREMENTS AND DATA AS FEATURE VALUES. NO ADJECTIVES.
 - Return short values, like "1.5GHz" instead of "1.5GHz quad-core".
-- Values should not be longer than 20 characters.
+- Values must not be longer than 20 characters.
 - Convert yes/no features to LOWERCASE boolean values: "true" or "false".
 - Include many general features that related products also have, for comparison.
 - USE CONSISTENT FEATURE KEYS AND VALUE FORMATS FOR PRODUCTS OF SIMILAR TYPES.
-- When any feature value is not available, omit it from the dictionary. Do not return null or empty or "n/a" values.
+- IF A FEATURE IS NOT APPLICABLE, LEAVE IT OUT. DO NOT OUTPUT "N/A" or "n/a".
 - When possible use one-word keys.
 - DO NOT USE PREVIOUS KNOWLEDGE TO ASSUME ANYTHING ABOUT THE PRODUCT.
 
