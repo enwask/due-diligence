@@ -10,35 +10,45 @@ T = TypeVar("T")
 
 key_map = {
     "display resolution": "resolution",
-    "system memory": "memory",
     "RAM": "memory",
     "ram": "memory",
+    "system memory": "memory",
     "storage capacity": "storage",
     "capacity": "storage",
     "wireless connectivity": "wireless",
     "operating system": "os",
     "operating system compatibility": "os",
+    "gpu": "graphics",
+    "display size": "screen size"
 }
 
 val_map = {
     "inch": "\"",
     "inches": "\"",
 
-    **{f"{i}x{j}": f"{i} x {j}" for i in range(10) for j in range(10)},
+    **{f"{i} x {j}": f"{i}x{j}" for i in range(10) for j in range(10)},
     **{f"{i}{ch}": f"{i} {ch}" for i in range(10) for ch in range(ord('a'), ord('z') + 1)},
     **{f"{i}{ch}": f"{i} {ch}" for i in range(10) for ch in range(ord('A'), ord('Z') + 1)}
 }
 
+val_remove = {
+    "array", "options"
+}
 
-def cleanup_feature(k: str, v: any) -> tuple[str, any]:
+
+def cleanup_feature(key: str, val: any) -> tuple[str, any]:
+    k, v = key.lower(), val
     for old, new in key_map.items():
-        k.replace(old, new)
+        if k == old:
+            k = new
+        else:
+            k.replace(old, new)
 
     if v is str:
         if v in ("true", "false"):
             v = v == "true"
 
-        elif v == "null":
+        elif v == "null" or v.lower() == "n/a" or v in val_remove:
             v = None
 
         else:
@@ -51,8 +61,13 @@ def cleanup_feature(k: str, v: any) -> tuple[str, any]:
 # Gets the product features for a single product description
 async def get_features_async(description: str) -> dict[str, any]:
     res = await extract_features_async_fun(description)
-    feats = json.loads(res.result)
-    feats = dict([cleanup_feature(k, v) for k, v in feats.items()])
+    feats_json = json.loads(res.result)
+
+    feats = {}
+    for k, v in feats_json.items():
+        k, v = cleanup_feature(k, v)
+        if v is not None:
+            feats[k] = v
 
     return feats
 
