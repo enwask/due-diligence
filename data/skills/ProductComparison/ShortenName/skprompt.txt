@@ -4,15 +4,20 @@ Shorten the name of the product.
 - Use the most common name for the product.
 - Don't include the product type at the end.
 
-Example product name:
+Product name:
 MSI - CreatorPro Z16HX Studio 16" 165Hz Touchscreen Laptop - Intel Core i9 with 32G Memory - NVIDIA RTX A2000 with 8G - 1T SSD - Lunar Gray
 +++++
 MSI CreatorPro Z16HX Studio
 
-Example product name:
+Product name:
 Dell - Precision 7000 17" Laptop - Intel Core i9 with 64GB Memory - 1 TB SSD - Aluminum Titan Gray
 +++++
 Dell Precision 7000
+
+Product name:
+MSI Stealth 17.3" Gaming Laptop
++++++
+MSI Stealth
 
 Product name:
 {{$input}}
