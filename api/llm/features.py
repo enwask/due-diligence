@@ -1,12 +1,9 @@
 import json
 from asyncio import create_task, gather, as_completed
-from typing import TypeVar, AsyncIterable
+from typing import AsyncIterable
 
 from api.llm import extract_features_async_fun
 from api.vendor import Product
-
-# Generic type for dict keys used throughout this file
-T = TypeVar("T")
 
 key_map = {
     "display resolution": "resolution",
