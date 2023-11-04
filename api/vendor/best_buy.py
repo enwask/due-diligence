@@ -4,7 +4,10 @@ from api.vendor.product import Product, ProductBase
 from api.vendor.vendor import Vendor
 from api.secrets import BEST_BUY_KEY
 
+from Levenshtein import ratio
+
 api = BestBuyAPI(BEST_BUY_KEY)
+SIMILARITY_THRESHOLD = 0.85
 
 
 class BestBuy(ProductBase):
@@ -24,7 +27,7 @@ class BestBuy(ProductBase):
         kwargs.update({
             "sort": "salePrice.dsc",  # TODO: Better product selection (maybe request data for a few price ranges)
             "show": "sku,name,longDescription,salePrice,url,thumbnailImage,modelNumber,features.feature",
-            "pageSize": num + 10,  # Add some padding in case we get duplicates
+            "pageSize": num * 2,  # Add some padding in case we get duplicates
             "format": "json"
         })
 
@@ -49,6 +52,10 @@ class BestBuy(ProductBase):
 
                 # If this is a duplicate product, skip it
                 if model in models:
+                    continue
+
+                # If the product name is too similar to one we have, skip it
+                if any(ratio(item["name"], p.name) > SIMILARITY_THRESHOLD for p in products):
                     continue
 
                 # Add the model number to the set
