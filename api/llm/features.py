@@ -2,8 +2,8 @@ import json
 from asyncio import create_task, gather, as_completed
 from typing import TypeVar, AsyncIterable
 
-from api.vendor import Product
 from api.llm import extract_features_async_fun
+from api.vendor import Product
 
 # Generic type for dict keys used throughout this file
 T = TypeVar("T")
@@ -19,16 +19,20 @@ key_map = {
     "operating system": "os",
     "operating system compatibility": "os",
     "gpu": "graphics",
-    "display size": "screen size"
+    "display size": "screen size",
+    "chip": "processor"
 }
 
 val_map = {
     "inch": "\"",
     "inches": "\"",
+    "hours": "hrs",
+    "Ultra HD": "UHD",
 
     **{f"{i} x {j}": f"{i}x{j}" for i in range(10) for j in range(10)},
-    **{f"{i}{ch}": f"{i} {ch}" for i in range(10) for ch in range(ord('a'), ord('z') + 1)},
-    **{f"{i}{ch}": f"{i} {ch}" for i in range(10) for ch in range(ord('A'), ord('Z') + 1)}
+    **{f"{i} {chr(ch1)}{chr(ch2)}": f"{i} {chr(ch1)}{chr(ch2)}"
+       for i in range(10) for ch1 in range(ord('A'), ord('Z') + 1)
+       for ch2 in range(ord('A'), ord('Z') + 1)}
 }
 
 val_remove = {
@@ -37,14 +41,14 @@ val_remove = {
 
 
 def cleanup_feature(key: str, val: any) -> tuple[str, any]:
-    k, v = key.lower(), val
+    k, v = key, val
     for old, new in key_map.items():
         if k == old:
             k = new
         else:
-            k.replace(old, new)
+            k = k.replace(old, new)
 
-    if v is str:
+    if isinstance(v, str):
         if v in ("true", "false"):
             v = v == "true"
 
@@ -53,7 +57,10 @@ def cleanup_feature(key: str, val: any) -> tuple[str, any]:
 
         else:
             for old, new in val_map.items():
-                v.replace(old, new)
+                if v == old:
+                    v = new
+                else:
+                    v = v.replace(old, new)
 
     return k, v
 
