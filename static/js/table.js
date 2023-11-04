@@ -10,9 +10,18 @@ const price_format = new Intl.NumberFormat('en-US', {
 let products = []
 
 function fixColumnName(name) {
+    if (name.length <= 3) return name.toUpperCase();
+
     return name.replace(/\w\S*/g, str => {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     });
+}
+
+function fixValue(value) {
+    if (value === true) return "yes";
+    if (value === false) return "no";
+
+    return value;
 }
 
 function rebuildTable() {
@@ -81,7 +90,7 @@ function rebuildTable() {
             let td = tr.insertCell();
 
             // Set the text
-            if (key in product.features) td.innerHTML = product.features[key];
+            if (key in product.features) td.innerHTML = fixValue(product.features[key]);
             else td.innerHTML = "<span class='fg-subtle'>n/a</span>";
         }
     }
