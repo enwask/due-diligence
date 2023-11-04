@@ -1,3 +1,4 @@
+import json
 from functools import cache
 from os.path import abspath
 from urllib.parse import quote
@@ -96,6 +97,41 @@ async def compare(query: str, vendor: Vendor = Vendor.BEST_BUY, num: int = 10):
     # Return the generator function as a streaming response
     headers = {"X-Content-Type-Options": "nosniff"}
     return StreamingResponse(fun(), media_type="application/json", headers=headers)
+
+
+# Product comparison endpoint
+@app.get("/tune/{query}")
+async def tune(query: str, vendor: Vendor = Vendor.BEST_BUY, num: int = 10):
+    async def fun():
+        try:
+            # Search for products
+            yield "<p>Searching for products...</p>"
+            products = vendors[vendor].search_products(quote(query), num)
+
+            # Fix product names
+            yield "<p>Fixing product names...</p>"
+            await fix_product_names_async(products)
+
+            # Get product features
+            yield "<p>Extracting features...</p>"
+            num_sent = 0
+            async for index, feat in collect_features_async(products):
+                # Send product data
+                br = '\n'  # No backslashes in f-string
+                yield f"<textarea style='width:60%;height:300px;'>{products[index].desc.replace(br, ' ')}</textarea><br/><br/>"
+                yield f"<textarea style='width:60%;height:300px;' id='i{num_sent}'>{json.dumps(ProductData(products[index], feat).json()['features'], indent=2)}</textarea><br/><br/>"
+                yield f"<button id='b{num_sent}' style='padding:10px 5px;'>Remove linebreaks</button><br/><br/><br/>"
+                yield f"<script>let el{num_sent}=document.querySelector('#b{num_sent}');el{num_sent}.onclick=()=>{{i{num_sent}.value=i{num_sent}.value.replaceAll('\\n',' ').replaceAll('   ',' ');}};</script>"
+
+                num_sent += 1
+
+        # Handle error in feature loading
+        except Exception as e:
+            yield LoadError("Internal error: " + str(e)).str()
+
+    # Return the generator function as a streaming response
+    headers = {"X-Content-Type-Options": "nosniff"}
+    return StreamingResponse(fun(), media_type="text/html", headers=headers)
 
 
 # Home page / product comparison frontend
