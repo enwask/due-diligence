@@ -17,7 +17,6 @@ block content
             div#search-bar-cont
                 input#search-bar.form-control(
                     type="text"
-                    name="query"
                     autocomplete="off"
                     placeholder="I'm looking for..."
                     autofocus="autofocus"
@@ -34,6 +33,7 @@ block content
                     aria-haspopup="true"
                     aria-expanded="false"
                     data-vendor=default_vendor
+                    title="Product data source"
                 ) Select vendor&nbsp;
                 ul#search-vendor-menu.dropdown-menu(aria-labelledby="search-vendor-btn")
                     li
@@ -49,6 +49,21 @@ block content
                             )= val.name
                                 if val.badge !== ""
                                     span(class=val.enabled ? "bg-fg" : "bg-fg-subtle").badge.m-l-1= val.badge
+
+                // Result number input
+                input#search-num.form-control.m-t-2.d-inline-block.w-auto.m-l-1.mono.focus-ring.focus-ring-secondary(
+                    type="number"
+                    min="1"
+                    max="20"
+                    value="10"
+                    title="Number of results"
+                )
+
+                // Loader and status message
+                div#status.m-t-2.align-middle.d-none
+                    span.spinner-border.spinner-border-sm.align-middle.fg-subtle(role="status")
+                    span#status-text.align-middle.m-l-2.fg-subtle Status message here
+
         div.col
 
     div.m-t-10.m-b-16

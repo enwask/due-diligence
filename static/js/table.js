@@ -83,6 +83,7 @@ function rebuildTable() {
         // Create the price cell
         let td_price = tr.insertCell();
         td_price.innerHTML = price_format.format(product.price);
+        td_price.classList.add("user-select-all"); // Make price select all on click
 
         // Create columns
         for (const [key, name] of cols) {
@@ -92,6 +93,7 @@ function rebuildTable() {
             // Set the text
             if (key in product.features) td.innerHTML = fixValue(product.features[key]);
             else td.innerHTML = "<span class='fg-subtle'>n/a</span>";
+            td.classList.add("user-select-all"); // Make value select all on click
         }
     }
 
