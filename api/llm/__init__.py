@@ -2,4 +2,4 @@ from .skills import Skill, SkillFunction, AsyncSkillFunction, load_skill, get_sk
 from .kernel import kernel, product_comparison, extract_features_fun, extract_features_async_fun, shorten_name_fun, \
     shorten_name_async_fun
 from .features import get_features_async, collect_features_async
-from .names import shorten_name_async, fix_product_names_async
+from .names import shorten_name_async, gather_names_async, collect_names_async

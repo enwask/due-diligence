@@ -25,6 +25,9 @@ val_map = {
     "inches": "\"",
     "hours": "hrs",
     "Ultra HD": "UHD",
+    "NIT": "nit",
+
+    **{f"{i},{j}{k}{l}": f"{i}{j}{k}{l}" for i in range(10) for j in range(10) for k in range(10) for l in range(10)},
 
     **{f"{i} x {j}": f"{i}x{j}" for i in range(10) for j in range(10)},
     **{f"{i} {chr(ch1)}{chr(ch2)}": f"{i} {chr(ch1)}{chr(ch2)}"
