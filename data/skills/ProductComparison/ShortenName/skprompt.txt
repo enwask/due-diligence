@@ -20,5 +20,10 @@ MSI Stealth 17.3" Gaming Laptop
 MSI Stealth
 
 Product name:
+Razer - Blade 16 - 16'' Gaming Laptop - Dual Mini LED 4K UHD+FHD - Intel i9 HX - NVIDIA GeForce RTX 4090 - 32GB RAM - 2TB SSD - Black
++++++
+Razer Blade 16
+
+Product name:
 {{$input}}
 +++++
