@@ -83,7 +83,7 @@ async def compare(query: str, vendor: Vendor = Vendor.BEST_BUY, num: int = 10):
             # Get product features and fix names
             # TODO: Move this to another module
             yield LoadStatus("Extracting features...").json()
-            name_fixed = [False for _ in products]
+            name_fixed: list[bool] = [False for _ in products]
             features: list[None | dict[str, any]] = [None for _ in products]
 
             # Operate on each result as it comes in
@@ -91,29 +91,27 @@ async def compare(query: str, vendor: Vendor = Vendor.BEST_BUY, num: int = 10):
             num_sent = 0
             async with streamer.stream() as stream:
                 async for res in stream:
-                    index: int
-                    feat: dict[str, any]
-
-                    if isinstance(res, int):
+                    index, val = res
+                    if isinstance(val, str):
                         # Product name fixed
-                        name_fixed[res] = True
+                        products[index].name = val
+                        name_fixed[index] = True
 
-                        # If features are not ready, end iteration
-                        if features[res] is None:
+                        # If features are not ready, skip this iteration
+                        if features[index] is None:
                             continue
                     else:
                         # Product features extracted
-                        index, feat = res
-                        features[index] = feat
+                        features[index] = val
 
-                        # If name is not ready, end iteration
+                        # If name is not ready, skip this iteration
                         if not name_fixed[index]:
                             continue
 
                     # Send product data
                     yield [
                         LoadStatus("Extracting features... (%d/%d)" % (num_sent + 1, len(products))).json(),
-                        ProductData(products[index], feat).json()]
+                        ProductData(products[index], features[index]).json()]
                     num_sent += 1
 
         # Handle error in feature loading
@@ -121,6 +119,7 @@ async def compare(query: str, vendor: Vendor = Vendor.BEST_BUY, num: int = 10):
             yield LoadError("Internal error: " + str(e)).json()
 
     # Return the generator function as a streaming response
+    # TODO: this should also be a decorator for cleaner route functions
     headers = {"X-Content-Type-Options": "nosniff"}
     return StreamingResponse(fun(), media_type="application/json", headers=headers)
 
