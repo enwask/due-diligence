@@ -1,0 +1,41 @@
+doctype html
+html
+    // author: enwask
+    head
+        // page title and favicon
+        title #{title} - Due Diligence
+        link(rel="shortcut icon" href="static/images/favicon.ico")
+
+        // metadata
+        block meta
+            meta(charset="utf-8")
+            meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
+            meta(name="language" content="English")
+            meta(name="title" content="Due Diligence")
+            meta(name="author" content="enwask")
+            meta(name="description" content="Your AI product comparison helper")
+            meta(name="keywords" content="ai, shopping, products, compare, llm, openai, chatgpt, gpt")
+            meta(name="viewport" content="width=device-width, initial-scale=1")
+
+        // stylesheets
+        block css
+            link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" crossorigin="anonymous")
+            link(rel="stylesheet" href="static/css/global.css")
+
+        // frontloaded scripts
+        block scripts_top
+            script(type="text/javascript" src="static/js/global.js")
+
+    body
+        // main page content
+        div.container.text-center.pt-0.pt-md-5
+            div.row.p-t-16
+                div#left.col
+                div#middle.col-sm-12.m-t-16
+                    div#content
+                        block content
+                div#right.col
+
+        // scripts
+        block scripts
+            script(type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous")

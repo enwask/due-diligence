@@ -1,0 +1,18 @@
+Extract technical specifications from the product description.
+- Return a JSON dictionary mapping GENERAL, LOWERCASE feature names to SINGLE STRING VALUES.
+- Only use feature keys relevant to the product.
+- Use keys common to same-type products, so they can be compared.
+- USE THE SAME KEY FOR THE SAME TYPE OF FEATURE ACROSS PRODUCTS. BE CONSISTENT.
+- ONLY INCLUDE SPECIFIC, CONCRETE MEASUREMENTS AND DATA AS FEATURE VALUES. NO ADJECTIVES.
+- RETURN SHORT VALUES, like "1.5 GHz" instead of "1.5 GHz quad-core".
+- VALUES MUST NOT BE LONGER THAN 20 CHARACTERS.
+- Convert yes/no features to LOWERCASE boolean values with no quotes: true or false.
+- Include many general features that related products also have, for comparison.
+- USE CONSISTENT FEATURE KEYS AND VALUE FORMATS FOR PRODUCTS OF SIMILAR TYPES.
+- IF A FEATURE IS NOT APPLICABLE, DO NOT USE N/A OR n/a. OMIT THE FEATURE, DO NOT PROVIDE A VALUE.
+- When possible use one-word keys.
+- DO NOT USE PREVIOUS KNOWLEDGE TO ASSUME ANYTHING ABOUT THE PRODUCT.
+
+Product description:
+{{$input}}
++++++

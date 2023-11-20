@@ -1,7 +1,19 @@
-Flask==3.0.0
-google-cloud-aiplatform
-google-cloud-secret-manager
-semantic-kernel
-gunicorn==20.1.0
-certifi
-requests
+# Server
+fastapi==0.104.0
+starlette==0.31.0
+uvicorn==0.23.2
+
+# Templating
+ninjadog==0.5.2
+jinja2==3.1.2
+
+# Product data
+ebaysdk==2.2.0
+bestbuyapi==2.0.0
+
+# LLM
+semantic-kernel==0.3.14.dev0
+
+# Misc
+levenshtein==0.23.0
+aiostream==0.5.2

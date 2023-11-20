@@ -1,0 +1,29 @@
+Shorten the name of the product.
+- Remove specifications and other information that is not part of the name.
+- Include the brand name and product name.
+- Use the most common name for the product.
+- Don't include the product type at the end.
+
+Product name:
+MSI - CreatorPro Z16HX Studio 16" 165Hz Touchscreen Laptop - Intel Core i9 with 32G Memory - NVIDIA RTX A2000 with 8G - 1T SSD - Lunar Gray
++++++
+MSI CreatorPro Z16HX Studio
+
+Product name:
+Dell - Precision 7000 17" Laptop - Intel Core i9 with 64GB Memory - 1 TB SSD - Aluminum Titan Gray
++++++
+Dell Precision 7000
+
+Product name:
+MSI Stealth 17.3" Gaming Laptop
++++++
+MSI Stealth
+
+Product name:
+Razer - Blade 16 - 16'' Gaming Laptop - Dual Mini LED 4K UHD+FHD - Intel i9 HX - NVIDIA GeForce RTX 4090 - 32GB RAM - 2TB SSD - Black
++++++
+Razer Blade 16
+
+Product name:
+{{$input}}
++++++
