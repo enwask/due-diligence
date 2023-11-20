@@ -13,6 +13,17 @@ class Product:
         self.price: float = price
         self.url: str = url
         self.img: Optional[str] = img
+        
+    def json(self):
+        return {
+            "vendor": self.vendor.value,
+            "id": self.id,
+            "name": self.name,
+            "desc": self.desc,
+            "price": self.price,
+            "url": self.url,
+            "img": self.img
+        }
 
 
 # Abstract product database for data access layer

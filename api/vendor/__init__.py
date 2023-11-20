@@ -6,10 +6,10 @@ from .vendor import *
 
 best_buy = BestBuy()
 ebay = Ebay()
-etsy = Etsy()
+# etsy = Etsy()
 
 vendors = {
     Vendor.BEST_BUY: best_buy,
     Vendor.EBAY: ebay,
-    Vendor.ETSY: etsy
+    # Vendor.ETSY: etsy
 }

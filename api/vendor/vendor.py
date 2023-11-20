@@ -5,7 +5,7 @@ class Vendor(Enum):
     # AMAZON = "amazon"
     BEST_BUY = "best_buy"
     EBAY = "ebay"
-    ETSY = "etsy"
+    # ETSY = "etsy"
     GOOGLE_SHOPPING = "google_shopping"
     WALMART = "walmart"
 
@@ -16,8 +16,8 @@ class Vendor(Enum):
 vendor_info: dict[Vendor, str | tuple[str, bool, str | None]] = {
     # Vendor.AMAZON: ("Amazon", False, "Coming soon"),
     Vendor.BEST_BUY: ("Best Buy", True, None),
-    Vendor.EBAY: ("eBay", True, None),
-    Vendor.ETSY: ("Etsy", True, None),
+    Vendor.EBAY: ("eBay", False, "Coming soon"),
+    # Vendor.ETSY: ("Etsy", False, "Coming soon"),
     Vendor.GOOGLE_SHOPPING: ("Google Shopping", False, "Legacy"),
     Vendor.WALMART: ("Walmart", False, "Coming soon")
 }
