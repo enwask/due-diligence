@@ -129,6 +129,16 @@ async def compare(query: str, vendor: Vendor = Vendor.BEST_BUY, num: int = 10):
 async def tune(query: str, vendor: Vendor = Vendor.BEST_BUY, num: int = 10):
     async def fun():
         try:
+            # Syntax highlighting
+            yield """
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
+"""
+
+            # Padding
+            yield "<style>body{padding:32px;}</style>"
+
             # Search for products
             yield "<p>Searching for products...</p>"
             products = vendors[vendor].search_products(quote(query), num)
@@ -139,7 +149,7 @@ async def tune(query: str, vendor: Vendor = Vendor.BEST_BUY, num: int = 10):
 
             # Get product features
             yield "<p>Extracting features...</p>"
-            name_fixed = [False for _ in products]
+            name_fixed: list[bool] = [False for _ in products]
             features: list[None | dict[str, any]] = [None for _ in products]
 
             # Operate on each result as it comes in
@@ -147,39 +157,40 @@ async def tune(query: str, vendor: Vendor = Vendor.BEST_BUY, num: int = 10):
             num_sent = 0
             async with streamer.stream() as stream:
                 async for res in stream:
-                    index: int = -1
-                    feat: dict[str, any]
-
-                    if isinstance(res, int):
+                    index, val = res
+                    if isinstance(val, str):
                         # Product name fixed
-                        name_fixed[res] = True
-                        # products[]
+                        products[index].name = val
+                        name_fixed[index] = True
 
-                        # If features are not ready, end iteration
-                        if features[res] is None:
+                        # If features are not ready, skip this iteration
+                        if features[index] is None:
                             continue
                     else:
                         # Product features extracted
-                        index, feat = res
-                        features[index] = feat
+                        features[index] = val
 
-                        # If name is not ready, end iteration
+                        # If name is not ready, skip this iteration
                         if not name_fixed[index]:
                             continue
 
                     # Send response chunk
                     br = '\n'  # No backslashes in f-string
                     yield f"<h2>{products[index].name}</h2>"
-                    yield f"<textarea style='width:60%;height:300px;'>{products[index].desc.replace(br, ' ')}</textarea><br/><br/>"
-                    yield f"<textarea style='width:60%;height:300px;' id='i{num_sent}'>{json.dumps(ProductData(products[index], feat).json()['features'], indent=2)}</textarea><br/><br/>"
-                    yield f"<button id='b{num_sent}' style='padding:10px 5px;'>Remove linebreaks</button><br/><br/><br/>"
-                    yield f"<script>let el{num_sent}=document.querySelector('#b{num_sent}');el{num_sent}.onclick=()=>{{i{num_sent}.value=i{num_sent}.value.replaceAll('\\n',' ').replaceAll('   ',' ');}};</script>"
+                    yield f"<textarea style='width:75%;height:300px;'>{products[index].desc.replace(br, ' ')}</textarea><br/><br/>"
+                    yield f"<pre><code style='width:73%' id='i{num_sent}'>{json.dumps(ProductData(products[index], features[index]).json()['features'], indent=2)}</code></pre><br/><br/>"
+                    yield f"""
+<script>
+    let el{num_sent} = document.querySelector('#i{num_sent}');
+    hljs.highlightElement(el{num_sent});
+</script>
+"""
 
                     num_sent += 1
 
         # Handle error in feature loading
         except Exception as e:
-            yield LoadError("Internal error: " + str(e)).json()
+            yield LoadError("Internal error: " + str(e)).str()
 
     # Return the generator function as a streaming response
     headers = {"X-Content-Type-Options": "nosniff"}
