@@ -8,6 +8,7 @@ class PugRenderer:
         self.path = path
 
     def render(self, template: str, context: dict[str, any], pretty: bool = True) -> str:
+        # TODO: Cache rendered HTML by context hash
         return render("", f"{self.path}/{template}", context, pretty=pretty, with_jinja=True)
 
     def response(self, template: str, context: dict[str, any], pretty: bool = True) -> str:

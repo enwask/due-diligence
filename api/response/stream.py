@@ -10,3 +10,5 @@ def json_stream(fun: callable) -> callable:
             yield val if isinstance(val, str) else json.dumps(val)
 
     return wrapper
+
+# TODO: more stream response decorators (headers etc). one that is just like what would be inside a json_stream
