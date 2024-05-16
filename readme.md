@@ -1,6 +1,6 @@
 # Due Diligence
 
-Due Diligence is your AI-powered shopping helper, originally developed in 36 hours for the Knight Hacks 2023 hackathon.
+Due Diligence is your AI-powered shopping helper, originally developed in 36 hours for the Knight Hacks 2023 hackathon. The project was an honorable mention for Royal Bank of Canada's prompt, "improving shopping experiences with generative AI". It also won MLH's "best use of GitHub".
 
 This web application allows you to search for a type of product and gives you a digestible comparison of resulting
 products and their specifications. You can also save products to your own personal list for later viewing, or share
